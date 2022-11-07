@@ -1,0 +1,4 @@
+rootProject.name = 'delivery-api'
+
+include 'delivery-api-service'
+include 'delivery-api-server'
