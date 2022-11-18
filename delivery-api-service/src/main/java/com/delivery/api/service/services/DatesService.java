@@ -1,21 +1,20 @@
 package com.delivery.api.service.services;
 
-import com.delivey.db.entities.Employee;
-import com.delivey.db.repository.EmployeeRepository;
-import java.util.List;
+import com.delivery.db.entities.Dates;
+import com.delivery.db.repository.DatesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class EmployeeService {
-
-    private final EmployeeRepository employeeRepository;
-
+public class DatesService {
+    private final DatesRepository datesRepository;
     @Transactional(readOnly = true)
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    public List<Dates> getAll() {
+        return datesRepository.findAll();
     }
 }
