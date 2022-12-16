@@ -6,5 +6,6 @@ plugins {
 
 dependencies {
     implementation project(':delivery-api-service')
+    implementation 'com.delivery:delivery-auth-config:1.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
