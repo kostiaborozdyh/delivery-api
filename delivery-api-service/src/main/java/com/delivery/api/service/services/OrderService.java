@@ -3,19 +3,15 @@ package com.delivery.api.service.services;
 import com.delivery.api.service.convertors.OrderConvertor;
 import com.delivery.api.service.dto.order.OrderRequestDTO;
 import com.delivery.api.service.dto.order.OrderResponseDTO;
-import com.delivery.db.entities.Dates;
-import com.delivery.db.entities.LocationStatus;
 import com.delivery.db.entities.Order;
-import com.delivery.db.entities.PaymentStatus;
+import com.delivery.db.entities.User;
 import com.delivery.db.repository.OrderRepository;
-import com.delivery.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,22 +19,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
-
+    private final UserService userService;
     private final OrderConvertor orderConvertor;
 
     @Transactional(readOnly = true)
-    public List<OrderResponseDTO> getAll() {
-        List<Order> allOrders = orderRepository.findAll();
-        return modelMapper.map(allOrders, new TypeToken<List<OrderResponseDTO>>() {
-        }.getType());
+    public List<OrderResponseDTO> getAllByUser(int pageNum, int pageSize) {
+        User user = userService.getCurrentUser();
+        List<Order> allOrders = orderRepository.findAllByUser(user, PageRequest.of(pageNum, pageSize));
+        return orderConvertor.convertToListResponseDTO(allOrders);
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderResponseDTO> getAllOrders(int pageNum, int pageSize) {
+        Page<Order> allOrders = orderRepository.findAll(PageRequest.of(pageNum, pageSize));
+        return orderConvertor.convertToListResponseDTO(allOrders);
+    }
+
+
+    public OrderResponseDTO createOrder(OrderRequestDTO orderRequestDTO) {
+        User user = userService.getCurrentUser();
+        Order order = orderConvertor.convertFromRequestDto(orderRequestDTO);
+
+        order.setUser(user);
+        order = save(order);
+        return orderConvertor.convertToResponseDTO(order);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Order createOrder(OrderRequestDTO orderRequestDTO) {
-        Order order = orderConvertor.convertFromRequestDto(orderRequestDTO);
-        order.setUser(userRepository.findById(1).orElse(null));
+    public Order save(Order order){
         return orderRepository.save(order);
     }
 
