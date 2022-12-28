@@ -1,6 +1,6 @@
 package com.delivery.api.service.services;
 
-import com.delivery.api.service.convertors.OrderConvertor;
+import com.delivery.api.service.convertor.impl.OrderConvertor;
 import com.delivery.api.service.dto.order.OrderRequestDTO;
 import com.delivery.api.service.dto.order.OrderResponseDTO;
 import com.delivery.db.entities.Order;
@@ -46,7 +46,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Order save(Order order){
+    public Order save(Order order) {
         return orderRepository.save(order);
     }
 

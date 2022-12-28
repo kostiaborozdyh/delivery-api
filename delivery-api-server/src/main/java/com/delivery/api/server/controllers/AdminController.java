@@ -1,9 +1,8 @@
 package com.delivery.api.server.controllers;
 
-import com.delivery.api.service.dto.user.UserRequestDTO;
+import com.delivery.api.service.dto.IdRequestDTO;
 import com.delivery.api.service.dto.user.UserResponseDTO;
 import com.delivery.api.service.services.UserService;
-import com.delivery.db.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,18 +30,18 @@ public class AdminController {
     }
 
     @PostMapping("/blockUser")
-    public ResponseEntity<UserResponseDTO> blockUser(@RequestBody UserRequestDTO userRequestDTO) {
-        return new ResponseEntity<>(userService.blockUser(userRequestDTO), HttpStatus.OK);
+    public ResponseEntity<UserResponseDTO> blockUser(@RequestBody IdRequestDTO idRequestDTO) {
+        return new ResponseEntity<>(userService.blockUser(idRequestDTO), HttpStatus.OK);
     }
 
     @PostMapping("/unblockUser")
-    public ResponseEntity<UserResponseDTO> unBlockUser(@RequestBody UserRequestDTO userRequestDTO) {
-        return new ResponseEntity<>(userService.unBlockUser(userRequestDTO), HttpStatus.OK);
+    public ResponseEntity<UserResponseDTO> unBlockUser(@RequestBody IdRequestDTO idRequestDTO) {
+        return new ResponseEntity<>(userService.unBlockUser(idRequestDTO), HttpStatus.OK);
     }
 
     @PostMapping("/deleteUser")
-    public ResponseEntity<Void> deleteUser(@RequestBody UserRequestDTO userRequestDTO) {
-        userService.deleteUser(userRequestDTO);
+    public ResponseEntity<Void> deleteUser(@RequestBody IdRequestDTO idRequestDTO) {
+        userService.deleteUser(idRequestDTO);
         return ResponseEntity.ok().build();
     }
 }
