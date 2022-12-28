@@ -1,6 +1,6 @@
 package com.delivery.api.service.services;
 
-import com.delivery.api.service.convertors.ReviewConvertor;
+import com.delivery.api.service.convertor.impl.ReviewConvertor;
 import com.delivery.api.service.dto.review.ReviewRequestDTO;
 import com.delivery.api.service.dto.review.ReviewResponseDTO;
 import com.delivery.db.entities.Review;
@@ -37,7 +37,7 @@ public class ReviewService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Review save(Review review){
+    public Review save(Review review) {
         return reviewRepository.save(review);
     }
 }
