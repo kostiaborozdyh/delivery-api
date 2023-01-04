@@ -37,7 +37,7 @@ public class ControllerAdvice {
     public ErrorMessageDTO handleValidationException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         return new ErrorMessageDTO(
                 HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage(),
+                "Not correct " + ex.getBindingResult().getFieldError().getField(),
                 request.getServletPath());
     }
 }
